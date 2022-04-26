@@ -59,9 +59,13 @@ show dbs
 use sample_training
 db.zips.find().pretty()
 db.zips.find({"zip": "12534"})
+
+db.zips.find({ "city": "HUDSON" }).count()
+
 db.zips.updateMany({ "city": "HUDSON" }, { "$inc": { "pop": 10 }})
 # "$inc" => increment
 
+<<<<<<< HEAD
 db.zips.updateOne({})
 
 # Advanced CRUD operations
@@ -364,3 +368,17 @@ db.trips.findOne()
 db.trips.find({ "birth year": { "$ne": "" } }, { "birth year": 1, "_id": 0 }).sort({"birth year": -1})
 
 # Introduction to indexes
+=======
+db.zips.updateOne({ "zip": "12534" }, { "$set": { "pop": 17630 } })
+
+db.grades.find()
+db.grades.find({ "student_id": 151})
+db.grades.find({ "student_id": 151, "class_id": 339 }).pretty()
+db.grades.find({ "student_id": 250, "class_id": 339 })
+
+db.grades.updateOne({ "student_id": 250, "class_id": 339 },
+                    { "$push": { "scores": { "type": "extra credit",
+                                             "score": 100 }
+                                }
+                     })
+>>>>>>> 0c83c6fe493b791cbaf7f9f8ab322eec3a3932fb
