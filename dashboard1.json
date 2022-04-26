@@ -1,0 +1,261 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "MongoDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "custName"
+          }
+        ]
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.current.aggregate([\n\t{\n\t\t\"$project\": {\n\t\t\t\"_id\": 0,\n\t        \"custName\": 1,\n\t        \"hostName\": 1,\n\t        \"date\": \"$date\",\n\t\t\t\"cloud\": \"$actions.oneMonthStats.cloud\",\n\t\t\t\"onprem\": \"$actions.oneMonthStats.onprem\"\n\t\t}\n\t},{\n\t\t\"$project\": {\n\t\t\t\"custName\": 1,\n\t\t\t\"hostName\": 1,\n\t\t\t\"generated\": { \"$add\": [ \"$cloud.scale.numGenerated\", \"$onprem.scale.numGenerated\", \"$cloud.move.numGenerated\", \"$onprem.move.numGenerated\" ]},\n\t\t\t\"executed\": { \"$add\": [ \"$cloud.scale.numExecuted\", \"$onprem.scale.numExecuted\", \"$cloud.move.numExecuted\", \"$onprem.move.numExecuted\" ]},\n\t\t\t\"failed\": { \"$add\": [ \"$cloud.scale.numFailed\", \"$onprem.scale.numFailed\", \"$cloud.move.numFailed\", \"$onprem.move.numFailed\" ]}\n\t\t}\n\t}\n])",
+          "type": "table"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "A month of move and scale actions",
+      "type": "table"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "license expires"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 124
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "brand"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 105
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "remaining days"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 128
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "license count"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "license used"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 108
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "license free"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 104
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "json-view"
+              },
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 2,
+      "options": {
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "rawQuery": true,
+          "refId": "A",
+          "target": "db.current.aggregate([\n\t{\n\t    \"$project\": {\n\t        \"_id\": 0,\n                \"Date\": \"$date\",\n\t        \"brand\": 1,\n\t        \"custName\": 1,\n\t        \"hostName\": 1,\n\t        \"license expires\": \"$licenseSummary.expirationDate\",\n\t        \"remaining days\": \"$licenseSummary.daysToExpiration\",\n\t        \"license count\": \"$licenseSummary.numLicensedEntities\",\n\t        \"license used\": \"$licenseSummary.numInUseEntities\",\n\t        \"license free\": { \"$subtract\": [ \"$licenseSummary.numLicensedEntities\", \"$licenseSummary.numInUseEntities\" ]},\n\t        \"version\": \"$versionInfo.version\"\n\t    }\n\t}\n])",
+          "type": "table"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Licenses",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Date": 0,
+              "brand": 3,
+              "custName": 2,
+              "hostName": 1,
+              "license count": 6,
+              "license expires": 5,
+              "license free": 8,
+              "license used": 7,
+              "version": 4
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true
+  },
+  "timezone": "",
+  "title": "Current License Details - All Customers",
+  "uid": "9uoeQnQnz",
+  "version": 5
+}
